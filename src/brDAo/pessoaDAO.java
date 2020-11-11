@@ -58,15 +58,16 @@ public class pessoaDAO
       }
   }
       
-      public boolean atualizar(Pessoa p)
+      public boolean atualizar(Pessoa pessoa)
       {
-     String Sql = "UPDATE pessoa set nome = ?, profissao = ? where id = 1";
+     String Sql = "UPDATE pessoa set nome = ?, profissao = ? where id = ?";
      con = Conexao.conectar();
           try 
           {
           pst = con.prepareStatement(Sql);
-          pst.setString(1,p.getNome());
-          pst.setString(2,p.getProfissao());
+          pst.setString(1,pessoa.getNome());
+          pst.setString(2,pessoa.getProfissao());
+          pst.setInt(3,pessoa.getId());
           pst.executeUpdate();
               System.out.println("Atualizado com sucesso");
               return true;
@@ -77,14 +78,15 @@ public class pessoaDAO
           }
           
       }
-      public boolean delete()
+      public boolean delete(int id)
       {
-      String Sql = "DELETE from pessoa where id = 4";
+      String Sql = "DELETE from pessoa where id = ?";
       con = Conexao.conectar();
      
           try
           {
           pst = con.prepareStatement(Sql);
+          pst.setInt(1, id);
           pst.executeUpdate();
        
           return true;
@@ -95,14 +97,15 @@ public class pessoaDAO
           }
       }
       
-      public boolean consultaporId()
+      public boolean consultaporId(int id)
 {
-String sql = "Select * from pessoa where id = 2";
+String sql = "Select * from pessoa where id = ?";
 
 con = Conexao.conectar();
 
 try {
 pst=con.prepareStatement(sql);
+pst.setInt(1,id);
 rs = pst.executeQuery();
 
 System.out.printf("%-5s|%-50s|%-20s\n", "ID", "Nome", "Profissao");
